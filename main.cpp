@@ -33,4 +33,15 @@ void main()
 	}
 
 	/*--------------------linked stack test--------------------*/
+
+	/*------------------midfix to PostFIx (stack)--------------*/
+	char input[MAXSIZE], output[MAXSIZE];
+	int top2 = -1;
+	int i = 0;
+	cout << "input expression: "; cin >> input;
+	MInFix_To_Postfix(input, output, top2);
+	while (output[i] != '\0')
+	{
+		cprint(output[i++]);
+	}
 }
