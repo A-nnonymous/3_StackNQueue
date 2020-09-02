@@ -18,7 +18,7 @@ void main()
 		cout << "The " << i << " th output item is:" << temp << endl;
 	}
 	*/
-	/*----------------array stack test-------------------------*/
+
 	/*--------------------linked stack test--------------------*/
 
 	/*for (int i = 0; i < 4; i++)
@@ -32,16 +32,30 @@ void main()
 		cout << "The " << i << " th item is:" << linked_stack_pop(linked_stack_head) << endl;
 	}
 
-	/*--------------------linked stack test--------------------*/
-
-	/*------------------midfix to PostFIx (stack)--------------*/
-	char input[MAXSIZE], output[MAXSIZE];
-	int top2 = -1;
-	int i = 0;
+	/*------------------infix to postfix (stack)--------------*/
+	/*char input[MAXSIZE], output[MAXSIZE];
 	cout << "input expression: "; cin >> input;
 	Infix_To_Postfix(input, output);
-	while (output[i] != '\0')
-	{
-		cprint(output[i++]);
-	}
+	cout << "The positfix exp is: " << output << endl;
+
+	/*-------------------infix to prefix (stack)------------------------*/
+	/*char input[MAXSIZE], output[MAXSIZE];
+	cout << "input expression: "; cin >> input;
+	Infix_To_Prefix(input, output);
+	cout << "The prefix exp is: " << output << endl;
+
+	/*--------------equivalent proving(FALSE)------------*/
+	char input[MAXSIZE], prefix[MAXSIZE], postfix[MAXSIZE];
+	char quasi_prefix[MAXSIZE];
+	int input_length;
+	cout << "input expression: "; cin >> input;
+	input_length = get_clength(input);
+	Infix_To_Prefix(input, prefix);
+	Infix_To_Postfix(input, postfix);
+	cout << "\nFormal prefix exp: " << prefix << endl;
+	cout << "\nFormal postfix exp: " << postfix << endl;
+	charray_reverse(input, input_length);
+	Infix_To_Postfix(input, quasi_prefix);
+	charray_reverse(quasi_prefix, get_clength(quasi_prefix));
+	cout << "\nQuasi prefix exp:" << quasi_prefix << endl;
 }

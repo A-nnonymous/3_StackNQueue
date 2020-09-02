@@ -63,6 +63,23 @@ int get_priority(char ch)
 	}
 	else return -1;
 }
+int get_clength(char ch[])
+{
+	int i = 0;
+	while (ch[i] != '\0')
+	{
+		i++;
+	}
+	return i;
+}
+void charray_reverse(char ch[], int length)
+{
+	int swap;
+	for (int i = 0, j = length - 1; i < j; i++, j--)
+	{
+		swap = ch[i]; ch[i] = ch[j]; ch[j] = swap;
+	}
+}
 void Infix_To_Postfix(char infix[], char pofix[])
 {
 	char symbol_stack[MAXSIZE];
@@ -74,14 +91,20 @@ void Infix_To_Postfix(char infix[], char pofix[])
 		{
 			pofix[++potop] = infix[i++];
 		}
+
 		else if (infix[i] == '(')   //left quote push
 		{
 			symbol_stack[++sstop] = infix[i++];
 		}
-		else if (infix[i] == '+' || infix[i] == '-' ||
-			infix[i] == '*' || infix[i] == '/')   // symbol
+
+		else if (infix[i] == '+' ||
+			infix[i] == '-' ||
+			infix[i] == '*' ||
+			infix[i] == '/')   // symbol
 		{
-			if (sstop == -1 || get_priority(infix[i]) > get_priority(symbol_stack[sstop]))
+			if (sstop == -1 ||
+				get_priority(infix[i]) >
+				get_priority(symbol_stack[sstop]))
 			{
 				symbol_stack[++sstop] = infix[i++];
 			}
@@ -90,6 +113,7 @@ void Infix_To_Postfix(char infix[], char pofix[])
 				pofix[++potop] = symbol_stack[sstop--];
 			}
 		}
+
 		else if (infix[i] == ')')
 		{
 			while (symbol_stack[sstop] != '(')
@@ -104,4 +128,57 @@ void Infix_To_Postfix(char infix[], char pofix[])
 		pofix[++potop] = symbol_stack[sstop--];
 	}
 	pofix[++potop] = '\0';
+}
+void Infix_To_Prefix(char infix[], char prefix[])
+{
+	char symbol_stack[MAXSIZE];
+	int sstop = -1, pretop = -1;
+	int in_length = get_clength(infix); int i = in_length - 1;
+	int pre_length;
+	while (infix[i] >= 0)    //run till EOL
+	{
+		if (infix[i] >= 'a' && infix[i] <= 'z')
+		{
+			prefix[++pretop] = infix[i--];
+		}
+
+		else if (infix[i] == ')')   //left quote push
+		{
+			symbol_stack[++sstop] = infix[i--];
+		}
+
+		else if (infix[i] == '+' ||
+			infix[i] == '-' ||
+			infix[i] == '*' ||
+			infix[i] == '/')   // symbol
+		{
+			if (sstop == -1 ||
+				get_priority(infix[i]) >=
+				get_priority(symbol_stack[sstop]))
+			{
+				symbol_stack[++sstop] = infix[i--];
+			}
+			else
+			{
+				prefix[++pretop] = symbol_stack[sstop--];
+			}
+		}
+
+		else if (infix[i] == '(')
+		{
+			while (symbol_stack[sstop] != ')')
+			{
+				prefix[++pretop] = symbol_stack[sstop--];
+			}
+			--sstop; --i;
+		}
+	}
+	while (sstop != -1)
+	{
+		prefix[++pretop] = symbol_stack[sstop--];
+	}
+	prefix[++pretop] = '\0';
+
+	int temp; pre_length = get_clength(prefix);
+	charray_reverse(prefix, pre_length);
 }
