@@ -39,7 +39,7 @@ void main()
 	int top2 = -1;
 	int i = 0;
 	cout << "input expression: "; cin >> input;
-	MInFix_To_Postfix(input, output, top2);
+	Infix_To_Postfix(input, output);
 	while (output[i] != '\0')
 	{
 		cprint(output[i++]);

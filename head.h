@@ -63,51 +63,10 @@ int get_priority(char ch)
 	}
 	else return -1;
 }
-void InFix_To_PostFIx(char infix[], char s2[], int& top2)
+void Infix_To_Postfix(char infix[], char pofix[])
 {
-	char s1[MAXSIZE]; int top1 = -1;
-	int i = 0;
-	while (infix[i] != '\0')    //run till EOL
-	{
-		if (infix[i] >= 'a' && infix[i] <= 'z')
-		{
-			s2[++top2] = infix[i];
-			i++;
-		}
-		else if (infix[i] == '(')   //left quote push
-		{
-			s1[++top1] = infix[i];
-			i++;
-		}
-		else if (infix[i] == '+' || infix[i] == '-' ||
-			infix[i] == '*' || infix[i] == '/')   // symbol
-		{
-			if (top1 == -1 || get_priority(infix[i]) > s1[top1])
-			{
-				s1[++top1] = infix[i++];
-			}
-			else
-			{
-				s2[++top2] = s1[top1--];
-			}
-		}
-		else if (infix[i] == ')')
-		{
-			while (s1[top1] != '(')
-			{
-				s2[++top2] = s1[top1--];
-				--top1; ++i;
-			}
-		}
-	}
-	while (top1 != -1)
-	{
-		s2[++top2] = s1[top1--];
-	}
-}
-void MInFix_To_Postfix(char infix[], char pofix[], int& potop)
-{
-	char symbol_stack[MAXSIZE]; int sstop = -1;
+	char symbol_stack[MAXSIZE];
+	int sstop = -1, potop = -1;
 	int i = 0;
 	while (infix[i] != '\0')    //run till EOL
 	{
@@ -144,4 +103,5 @@ void MInFix_To_Postfix(char infix[], char pofix[], int& potop)
 	{
 		pofix[++potop] = symbol_stack[sstop--];
 	}
+	pofix[++potop] = '\0';
 }
